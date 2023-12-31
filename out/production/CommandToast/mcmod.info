@@ -1,0 +1,16 @@
+[
+{
+  "modid": "command_toast",
+  "name": "Command Toast",
+  "description": "a mod of command of toast",
+  "version": "1.0.0.0",
+  "mcversion": "14.1.0.0",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Hileb"],
+  "credits": "\n Idealland - they provided this framework.",
+  "logoFile": "icon.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
