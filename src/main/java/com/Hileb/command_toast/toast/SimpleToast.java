@@ -33,7 +33,7 @@ public class SimpleToast{
 
     /*
 
-    /toast @a simple {"text":"Toast","color":"yellow","italic":true,"bold":true} {"text":"send_more_eggs","strikethrough":true} minecraft:egg 1 0 {ench:[{id:1,lvl:2}]}
+    /toast @a simple {"text":"Toast_Title","color":"yellow","italic":true,"bold":true} {"text":"send_more_toasts!","strikethrough":true} minecraft:iron_sword 1 0 {ench:[{id:1,lvl:2}]}
 
 
     * */
