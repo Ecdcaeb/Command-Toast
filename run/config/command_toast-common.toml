@@ -1,0 +1,4 @@
+#The level that toast command require
+#Range: 0 ~ 999
+commandLevel = 2
+
