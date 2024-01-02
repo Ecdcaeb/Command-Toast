@@ -2,6 +2,7 @@ package com.Hileb.command_toast.command;
 
 import com.Hileb.command_toast.CommandToastMod;
 import com.Hileb.command_toast.config.CommandToastConfig;
+import com.Hileb.command_toast.toast.HandShowToast;
 import com.Hileb.command_toast.toast.SimpleToast;
 import com.Hileb.command_toast.toast.ToastType;
 import com.mojang.brigadier.Command;
@@ -54,5 +55,6 @@ public class CommandToast {
     }
     public static void buildInRegister(){
         ToastType.REGISTRY.put(SimpleToast.NAME,new SimpleToast.Factory());
+        ToastType.REGISTRY.put(HandShowToast.HAND,new HandShowToast.Factory());
     }
 }

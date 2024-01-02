@@ -1,5 +1,6 @@
 package com.Hileb.command_toast.toast;
 
+import com.Hileb.command_toast.CommandToastMod;
 import com.Hileb.command_toast.command.CommandToast;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -22,6 +23,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,23 +54,31 @@ public class SimpleToast {
         @Nonnull
         @Override
         public LiteralArgumentBuilder<CommandSource> register() {
-            return Commands.literal(NAME).then(Commands.argument("title", MessageArgument.message())
-                        .then(Commands.argument("text",MessageArgument.message())
-                            .then(Commands.argument("icon", ItemArgument.item())
-                                    .executes(Factory::run)
-                            )
-                            .executes(Factory::run)).executes(Factory::run)).executes(Factory::run);
+            return Commands.literal(NAME)
+                    .then(Commands.literal("help").executes((context) -> {
+                        context.getSource().sendSuccess(
+                                new StringTextComponent("simple <title> <text> <icon>"),true);
+                        return 0;
+                    }))
+                    .then(Commands.argument("title",MessageArgument.message())
+                            .then(Commands.argument("text",MessageArgument.message())
+                                    .then(Commands.argument("icon",ItemArgument.item()).executes(Factory::run))));
         }
         public static int run(CommandContext<CommandSource> context) throws CommandSyntaxException{
-            Collection<ServerPlayerEntity> targets= EntityArgument.getPlayers(context,"targets");
-            ItemStack icon=ItemArgument.getItem(context,"icon").createItemStack(1,false);
-            ITextComponent title=MessageArgument.getMessage(context,"title");
-            ITextComponent text=MessageArgument.getMessage(context,"text");
-            SimpleServerToast serverToast=new SimpleServerToast(title,text,icon);
-            for(ServerPlayerEntity serverPlayer:targets){
-                post(serverPlayer,serverToast);
+            try{
+                Collection<ServerPlayerEntity> targets = EntityArgument.getPlayers(context, "targets");
+                ItemStack icon = ItemArgument.getItem(context, "icon").createItemStack(1, false);
+                ITextComponent title = MessageArgument.getMessage(context, "title");
+                ITextComponent text = MessageArgument.getMessage(context, "text");
+                SimpleServerToast serverToast = new SimpleServerToast(title, text, icon);
+                for (ServerPlayerEntity serverPlayer : targets) {
+                    post(serverPlayer, serverToast);
+                }
+                return targets.size();
+            }catch (Exception e){
+                CommandToastMod.LOGGER.error(e);
+                return 0;
             }
-            return targets.size();
         }
         @Override
         public ServerToast createToast() {
