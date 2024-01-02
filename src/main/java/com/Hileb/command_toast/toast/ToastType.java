@@ -1,12 +1,12 @@
 package com.Hileb.command_toast.toast;
 
-import com.Hileb.command_toast.command.CommandToast;
-import com.Hileb.command_toast.toast.ServerToast;
-import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.Hileb.command_toast.network.NetworkHandler;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.Event;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 
 /**
@@ -18,16 +18,13 @@ public class ToastType {
     public static final HashMap<String,ServerToastFactory> REGISTRY= new HashMap<>();
     public abstract static class ServerToastFactory{
         public String name;
-        public CommandToast.ChildBuilder childCommand;
-        public ServerToastFactory(String name, CommandToast.ChildBuilder childCommand){
+        public ServerToastFactory(String name){
             this.name=name;
-            this.childCommand=childCommand;
         }
-        public ArgumentBuilder<CommandSource, ?> registerChild(){
-            return childCommand.register();
-        }
+        @Nonnull
+        public abstract LiteralArgumentBuilder<CommandSource> register();
         public static void post(ServerPlayerEntity player, ServerToast serverToast){
-
+            NetworkHandler.send(serverToast,player);
         }
         public abstract ServerToast createToast();
     }

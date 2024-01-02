@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.gui.toasts.IToast;
@@ -26,6 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -45,14 +47,20 @@ public class SimpleToast {
     public static class Factory extends ToastType.ServerToastFactory{
 
         public Factory() {
-            super(NAME, Factory::register);
+            super(NAME);
         }
-        public static ArgumentBuilder<CommandSource, ?> register(){
-            return Commands.literal(NAME)
-                    .then(Commands.argument("title", MessageArgument.message()).then(Commands.argument("text",MessageArgument.message()).then(Commands.argument("icon", ItemArgument.item()).executes(Factory::run))));
+        @Nonnull
+        @Override
+        public LiteralArgumentBuilder<CommandSource> register() {
+            return Commands.literal(NAME).then(Commands.argument("title", MessageArgument.message())
+                        .then(Commands.argument("text",MessageArgument.message())
+                            .then(Commands.argument("icon", ItemArgument.item())
+                                    .executes(Factory::run)
+                            )
+                            .executes(Factory::run)).executes(Factory::run)).executes(Factory::run);
         }
         public static int run(CommandContext<CommandSource> context) throws CommandSyntaxException{
-            Collection<ServerPlayerEntity> targets= EntityArgument.getPlayers(context,"target");
+            Collection<ServerPlayerEntity> targets= EntityArgument.getPlayers(context,"targets");
             ItemStack icon=ItemArgument.getItem(context,"icon").createItemStack(1,false);
             ITextComponent title=MessageArgument.getMessage(context,"title");
             ITextComponent text=MessageArgument.getMessage(context,"text");
