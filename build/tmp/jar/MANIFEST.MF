@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: Command-Toast
-Implementation-Version: 36.1.0.0
+Implementation-Version: 36.1.1.0
 Specification-Vendor: Hileb
 Specification-Title: command_toast
-Implementation-Timestamp: 2024-01-05T13:45:04+0800
+Implementation-Timestamp: 2024-01-05T22:37:48+0800
 Specification-Version: 1
 Implementation-Vendor: Hileb
 
