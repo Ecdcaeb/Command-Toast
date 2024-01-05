@@ -23,15 +23,16 @@ displayName="Command-Toast" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://www.mcmod.cn/class/13157.html" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="command_toast.png" #optional
+logoFile="command_toast.png" #optional
 # A text field displayed in the mod UI
-#credits="Thanks for this example mod goes to Java" #optional
+credits='''LexManos - stick to MinecraftForge
+'''#optional
 # A text field displayed in the mod UI
 authors="Hileb" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description=''''''
+description='''a mod of command of toast'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.command_toast]] #optional
    # the modid of the dependency

@@ -8,6 +8,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -17,17 +20,22 @@ import java.util.Collection;
  * @Author Hileb
  * @Date 2024/1/2 22:50
  **/
+@Mod.EventBusSubscriber
 public class HandShowToast {
-    public static final String HAND="hand";
+    public static final String NAME="hand";
+    @SubscribeEvent
+    public static void register(ToastType.RegisterEvent event){
+        event.register(NAME,new Factory());
+    }
     public static class Factory extends ToastType.ServerToastFactory{
         public Factory() {
-            super(HAND);
+            super(NAME);
         }
 
         @Nonnull
         @Override
         public LiteralArgumentBuilder<CommandSource> register() {
-            return Commands.literal(HAND).requires((source)-> source.getEntity() instanceof ServerPlayerEntity)
+            return Commands.literal(NAME).requires((source)-> source.getEntity() instanceof ServerPlayerEntity)
                     .executes((context)->{
                         Collection<ServerPlayerEntity> targets = EntityArgument.getPlayers(context, "targets");
                         ServerPlayerEntity serverPlayer=context.getSource().getPlayerOrException();
@@ -41,8 +49,9 @@ public class HandShowToast {
         }
 
         @Override
-        public String help() {
-            return "hand (Void)";
+        public ITextComponent help() {
+            //TODO: i18n
+            return new StringTextComponent("hand");
         }
 
         @Override

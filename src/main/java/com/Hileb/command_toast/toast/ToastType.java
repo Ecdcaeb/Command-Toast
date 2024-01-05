@@ -4,6 +4,7 @@ import com.Hileb.command_toast.network.NetworkHandler;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.eventbus.api.Event;
 
 import javax.annotation.Nonnull;
@@ -26,7 +27,7 @@ public class ToastType {
         public static void post(ServerPlayerEntity player, ServerToast serverToast){
             NetworkHandler.send(serverToast,player);
         }
-        public abstract String help();
+        public abstract ITextComponent help();
         public abstract ServerToast createToast();
     }
     public final static class RegisterEvent extends Event {

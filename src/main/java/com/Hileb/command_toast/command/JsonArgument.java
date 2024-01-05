@@ -1,5 +1,6 @@
-package com.Hileb.command_toast.toast;
+package com.Hileb.command_toast.command;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -11,6 +12,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -26,14 +28,9 @@ public class JsonArgument implements ArgumentType<JsonObject> {
     public JsonObject parse(StringReader reader) throws CommandSyntaxException {
         StringBuilder stringBuilder=new StringBuilder();
         int leftCount=0;
-        int leftCount2=0;
         while (reader.canRead()){
             char each=reader.read();
             if (each=='{')leftCount++;
-            if (each=='\"')leftCount2++;
-            if (each==' '){
-                if (leftCount2%2==0)continue;
-            }
             if (each=='}'){
                 if (leftCount==1){
                     stringBuilder.append(each);
@@ -41,6 +38,9 @@ public class JsonArgument implements ArgumentType<JsonObject> {
                 }else leftCount--;
             }
             stringBuilder.append(each);
+        }
+        if (leftCount!=1){
+            throw EXCEPTION_TYPE.create();
         }
         String rawInput=stringBuilder.toString();
         JsonObject json;
@@ -51,6 +51,10 @@ public class JsonArgument implements ArgumentType<JsonObject> {
         }
         return json;
     }
+    private static final ArrayList<String> EXAMPLES= Lists.newArrayList(
+            "{}",
+            "{\"text\":\"Toast Title\",\"color\":\"yellow\",\"italic\":true,\"bold\":true}"
+    );
 
     @Override
     public Collection<String> getExamples() {
