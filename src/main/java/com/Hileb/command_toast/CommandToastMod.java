@@ -3,14 +3,14 @@ package com.Hileb.command_toast;
 import com.Hileb.command_toast.config.CommandToastConfig;
 import com.Hileb.command_toast.network.NetworkHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.MavenVersionStringHelper;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @Project Command-Toast
@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 @Mod(CommandToastMod.MODID)
 public class CommandToastMod {
     public static final String MODID="command_toast";
-    public static final Log LOGGER= LogFactory.getLog(MODID);
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
     public static String VERSION="36.1.0.0";
     public CommandToastMod(){
         IEventBus modBus= FMLJavaModLoadingContext.get().getModEventBus();

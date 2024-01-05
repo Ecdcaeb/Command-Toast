@@ -99,7 +99,6 @@ Writing Output: E:\project\MC MOD\UnusuallyProjectPack\CommandToast\Command-Toas
   com/Hileb/command_toast/
   com/Hileb/command_toast/CommandToastMod.class
   com/Hileb/command_toast/command/
-  com/Hileb/command_toast/command/CommandToast$ChildBuilder.class
   com/Hileb/command_toast/command/CommandToast.class
   com/Hileb/command_toast/config/
   com/Hileb/command_toast/config/CommandToastConfig.class
@@ -108,6 +107,9 @@ Writing Output: E:\project\MC MOD\UnusuallyProjectPack\CommandToast\Command-Toas
   com/Hileb/command_toast/network/S2CToastPack$Handler.class
   com/Hileb/command_toast/network/S2CToastPack.class
   com/Hileb/command_toast/toast/
+  com/Hileb/command_toast/toast/HandShowToast$Factory.class
+  com/Hileb/command_toast/toast/HandShowToast.class
+  com/Hileb/command_toast/toast/JsonArgument.class
   com/Hileb/command_toast/toast/ServerToast.class
   com/Hileb/command_toast/toast/SimpleToast$Factory.class
   com/Hileb/command_toast/toast/SimpleToast$SimpleIconToast.class

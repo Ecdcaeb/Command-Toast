@@ -21,6 +21,7 @@ import net.minecraft.command.arguments.MessageArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,11 +47,16 @@ public class CommandToast {
 
         LiteralArgumentBuilder<CommandSource> builder=Commands.literal("toast").requires((commandSource) -> commandSource.hasPermission(CommandToastConfig.commandLevel.get()));
         RequiredArgumentBuilder<CommandSource,?> argumentBuilder=Commands.argument("targets",EntityArgument.players());
+        LiteralArgumentBuilder<CommandSource> helpCommand=Commands.literal("help");
         for(ToastType.ServerToastFactory factory:ToastType.REGISTRY.values()){
             argumentBuilder=argumentBuilder.then(factory.register());
             CommandToastMod.LOGGER.info("register a type of toast:  "+factory.name);
+            helpCommand=helpCommand.then(Commands.literal(factory.name).executes(((context) -> {
+                context.getSource().sendSuccess(new StringTextComponent(factory.help()),true);
+                return 0;
+            })));
         }
-        builder.then(argumentBuilder);
+        builder.then(argumentBuilder).then(helpCommand);
         dispatcher.register(builder);
     }
     public static void buildInRegister(){

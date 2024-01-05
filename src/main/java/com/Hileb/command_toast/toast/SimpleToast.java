@@ -2,9 +2,14 @@ package com.Hileb.command_toast.toast;
 
 import com.Hileb.command_toast.CommandToastMod;
 import com.Hileb.command_toast.command.CommandToast;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -13,10 +18,7 @@ import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.ToastGui;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.ItemArgument;
-import net.minecraft.command.arguments.ItemInput;
-import net.minecraft.command.arguments.MessageArgument;
+import net.minecraft.command.arguments.*;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -28,6 +30,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -41,6 +44,7 @@ import java.util.List;
  **/
 @Mod.EventBusSubscriber
 public class SimpleToast {
+    ///toast @a simple {"text":"Toast_Title","color":"yellow","italic":true,"bold":true} {"text":"send_more_toasts!","strikethrough":true} minecraft:iron_sword{ench:[{id:1,lvl:2}]} 1
     @SubscribeEvent
     public static void register(ToastType.RegisterEvent event){
         event.register(NAME,new Factory());
@@ -55,21 +59,37 @@ public class SimpleToast {
         @Override
         public LiteralArgumentBuilder<CommandSource> register() {
             return Commands.literal(NAME)
-                    .then(Commands.literal("help").executes((context) -> {
-                        context.getSource().sendSuccess(
-                                new StringTextComponent("simple <title> <text> <icon>"),true);
-                        return 0;
-                    }))
-                    .then(Commands.argument("title",MessageArgument.message())
-                            .then(Commands.argument("text",MessageArgument.message())
-                                    .then(Commands.argument("icon",ItemArgument.item()).executes(Factory::run))));
+                    .then(Commands.argument("title",JsonArgument.json())
+                            .then(Commands.argument("text",JsonArgument.json())
+                                    .then(Commands.argument("icon",ItemArgument.item())
+                                            .executes((context)-> run(context,1))
+                                            .then(Commands.argument("icon_item_count",IntegerArgumentType.integer(0))
+                                                    .executes((context)-> run(context,IntegerArgumentType.getInteger(context,"icon_item_count")))
+                                            )
+                                    )
+                            )
+                    );
         }
-        public static int run(CommandContext<CommandSource> context) throws CommandSyntaxException{
+        public static int testRun(CommandContext<CommandSource> context) throws CommandSyntaxException {
+            JsonObject titleJson=JsonArgument.getJson(context,"title");
+            CommandToastMod.LOGGER.info(context.toString());
+
+            //CommandToastMod.LOGGER.info(text.toString());
+            CommandToastMod.LOGGER.info(titleJson.toString());
+            return 0;
+        }
+
+        @Override
+        public String help() {
+            return "simple <title> <text> <icon> [icon_item_count]";
+        }
+
+        public static int run(CommandContext<CommandSource> context,int count) throws CommandSyntaxException{
             try{
                 Collection<ServerPlayerEntity> targets = EntityArgument.getPlayers(context, "targets");
-                ItemStack icon = ItemArgument.getItem(context, "icon").createItemStack(1, false);
-                ITextComponent title = MessageArgument.getMessage(context, "title");
-                ITextComponent text = MessageArgument.getMessage(context, "text");
+                ItemStack icon = ItemArgument.getItem(context, "icon").createItemStack(count, false);
+                ITextComponent title=ITextComponent.Serializer.fromJson(JsonArgument.getJson(context,"title"));
+                ITextComponent text = ITextComponent.Serializer.fromJson(JsonArgument.getJson(context,"text"));
                 SimpleServerToast serverToast = new SimpleServerToast(title, text, icon);
                 for (ServerPlayerEntity serverPlayer : targets) {
                     post(serverPlayer, serverToast);

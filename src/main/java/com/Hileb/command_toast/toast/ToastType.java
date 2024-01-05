@@ -26,6 +26,7 @@ public class ToastType {
         public static void post(ServerPlayerEntity player, ServerToast serverToast){
             NetworkHandler.send(serverToast,player);
         }
+        public abstract String help();
         public abstract ServerToast createToast();
     }
     public final static class RegisterEvent extends Event {

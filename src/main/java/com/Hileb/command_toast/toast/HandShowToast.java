@@ -41,6 +41,11 @@ public class HandShowToast {
         }
 
         @Override
+        public String help() {
+            return "hand (Void)";
+        }
+
+        @Override
         public ServerToast createToast() {
             return new SimpleToast.SimpleServerToast();
         }
