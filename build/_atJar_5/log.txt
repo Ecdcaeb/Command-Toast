@@ -1,7 +1,0 @@
-Java Launcher: C:\Program Files\Java\jdk1.8.0_202\bin\java.exe
-Arguments: '--inJar, E:\project\MC MOD\UnusuallyProjectPack\Add-Potion-into-Your-Food\Add-Potion-into-Your-Food\gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.16.5-36.2.41\forge-1.16.5-36.2.41-injected.jar, --outJar, E:\project\MC MOD\UnusuallyProjectPack\Add-Potion-into-Your-Food\Add-Potion-into-Your-Food\gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.16.5-36.2.41_mapped_official_1.16.5\forge-1.16.5-36.2.41_mapped_official_1.16.5.jar, --logFile, accesstransform.log, --atFile, E:\project\MC MOD\UnusuallyProjectPack\CommandToast\Command-Toast\build\_atJar_5\parent_at.cfg'
-Classpath:
- - E:\project\MC MOD\UnusuallyProjectPack\Add-Potion-into-Your-Food\Add-Potion-into-Your-Food\gradle\caches\forge_gradle\maven_downloader\net\minecraftforge\accesstransformers\8.0.7\accesstransformers-8.0.7-fatjar.jar
-Working directory: E:\project\MC MOD\UnusuallyProjectPack\CommandToast\Command-Toast\build\_atJar_5
-Main class: net.minecraftforge.accesstransformer.TransformerProcessor
-====================================
